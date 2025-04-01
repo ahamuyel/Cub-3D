@@ -11,12 +11,13 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz
 
 INCLUDES = -Iincludes -I$(MLX_DIR)
 
-all: $(MLX) $(NAME)
+all: $(NAME)
 
 $(MLX):
-	@make -C $(MLX_DIR)
+	@echo "Compiling MiniLibX..."
+	@cd $(MLX_DIR) && make
 
-$(NAME): $(OBJ)
+$(NAME): $(MLX) $(OBJ)
 	$(CC) $(OBJ) $(MLX_FLAGS) -o $(NAME)
 
 clean:
@@ -24,7 +25,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	@make -C $(MLX_DIR) clean
+	@cd $(MLX_DIR) && make clean
 
 re: fclean all
 

@@ -1,14 +1,12 @@
 #ifndef GAME_H
 # define GAME_H
 
+# include "minilibx-linux/mlx.h"
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
-# include <math.h>
-# include "minilibx-linux/mlx.h"
 
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 800
+# define HEIGHT 600
 
 typedef struct s_game {
     void    *mlx;
@@ -20,6 +18,8 @@ typedef struct s_game {
     int     endian;
 } t_game;
 
+void    put_pixel(int x, int y, int color, t_game *game);
+void    draw_square(int x, int y, int size, int color, t_game *game);
 void    init_game(t_game *game);
 
 #endif
