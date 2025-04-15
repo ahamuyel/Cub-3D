@@ -11,7 +11,7 @@
 # define WIDTH 1200
 # define HEIGHT 800
 # define BLOCK 64
-# define SIZE 20
+# define SIZE 42
 
 # define KEY_W 119
 # define KEY_S 115
@@ -45,7 +45,7 @@ typedef struct s_data
 	float	angle;
 	float	dir_x;
 	float	dir_y;
-	char	map[MAP_H][MAP_W + 1];
+	char	**map;
 }			t_data;
 
 // game
@@ -53,4 +53,10 @@ void		init_game(t_data *data);
 int			close_window(t_data *data);
 int			key_press(int keycode, t_data *data);
 
+// field
+
+void		my_put_pixel(int x, int y, int color, t_data *data);
+void		draw_square(int x, int y, int color, t_data *data);
+char		**get_map(void);
+void		draw_map(t_data *data);
 #endif
