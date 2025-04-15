@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror
-SRCS = srcs/main.c srcs/game.c srcs/field.c
+SRCS = srcs/main.c srcs/game.c srcs/field.c srcs/player.c
 OBJS = $(SRCS:.c=.o)
 
 MLX_DIR = minilibx-linux

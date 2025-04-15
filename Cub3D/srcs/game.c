@@ -8,15 +8,32 @@ void	init_game(t_data *data)
 	data->addr = mlx_get_data_addr(data->img, &data->bbp, &data->line_length,
 			&data->endian);
 	data->map = get_map();
+    init_player(data);
+    player(data);
 	draw_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
-int	key_press(int keycode, t_data *data)
+void clear_image(t_data *data)
 {
-	if (keycode == KEY_ESC)
-		close_window(data);
-	return (0);
+	mlx_destroy_image(data->mlx, data->img);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->addr = mlx_get_data_addr(data->img, &data->bbp, &data->line_length, &data->endian);
+}
+
+void	clear_screen(t_data *data)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+			my_put_pixel(x++, y, 0x000000, data);
+		y++;
+	}
 }
 
 int	close_window(t_data *data)

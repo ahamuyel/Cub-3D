@@ -11,7 +11,7 @@
 # define WIDTH 1200
 # define HEIGHT 800
 # define BLOCK 64
-# define SIZE 42
+# define SIZE 30
 
 # define KEY_W 119
 # define KEY_S 115
@@ -30,33 +30,49 @@
 # define MAP_W 10
 # define MAP_H 10
 
+typedef struct s_player
+{
+	int			x;
+	int			y;
+	double		angle;
+	int			dir_x;
+	int			dir_y;
+}				t_player;
+
 typedef struct s_data
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		line_length;
-	int		bbp;
-	int		endian;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	int			line_length;
+	int			bbp;
+	int			endian;
 
-	int		x;
-	int		y;
-	float	angle;
-	float	dir_x;
-	float	dir_y;
-	char	**map;
-}			t_data;
+	int			x;
+	int			y;
+	float		angle;
+	float		dir_x;
+	float		dir_y;
+	char		**map;
+	t_player	player;
+}				t_data;
 
 // game
-void		init_game(t_data *data);
-int			close_window(t_data *data);
-int			key_press(int keycode, t_data *data);
+void			init_game(t_data *data);
+int				close_window(t_data *data);
+int				key_press(int keycode, t_data *data);
+void			clear_screen(t_data *data);
+void			clear_image(t_data *data);
 
 // field
+void			my_put_pixel(int x, int y, int color, t_data *data);
+void			draw_square(int x, int y, int color, t_data *data);
+char			**get_map(void);
+void			draw_map(t_data *data);
 
-void		my_put_pixel(int x, int y, int color, t_data *data);
-void		draw_square(int x, int y, int color, t_data *data);
-char		**get_map(void);
-void		draw_map(t_data *data);
+// player
+void			init_player(t_data *data);
+void			player(t_data *data);
+int				key_press(int keycode, t_data *data);
 #endif
