@@ -8,8 +8,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define WIDTH 1200
-# define HEIGHT 800
+# define WIDTH 900
+# define HEIGHT 900
 # define BLOCK 64
 # define SIZE 30
 
