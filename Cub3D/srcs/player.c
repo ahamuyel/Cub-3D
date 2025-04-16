@@ -31,14 +31,42 @@ void	draw_line(double x1, double y1, double x2, double y2, t_data *data)
 	}
 }
 
+
+void	draw_rays(t_data *data)
+{
+	int		rays;
+	double	start_angle;
+	double	angle_steps;
+	double	ray_length;
+	int		i;
+	double	ray_angle;
+	double	ray_x;
+	double	ray_y;
+
+	rays = 100;
+	start_angle = data->player.angle - (FOV / 2);
+	angle_steps = FOV / rays;
+	ray_length = 40;
+	i = 0;
+	while (i < rays)
+	{
+		ray_angle = start_angle + i * angle_steps;
+		ray_x = data->player.x + cos(ray_angle) * ray_length;
+		ray_y = data->player.y + sin(ray_angle) * ray_length;
+		draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
+		i++;
+	}
+}
+
+
 void	player(t_data *data)
 {
 	int		size;
 	int		i;
 	int		j;
-	double	ray_length;
-	double	ray_x;
-	double	ray_y;
+	// double	ray_length;
+	// double	ray_x;
+	// double	ray_y;
 
 	size = 20;
 	i = -size / 2;
@@ -54,10 +82,11 @@ void	player(t_data *data)
 		i++;
 	}
 	// desenha o raio indicando a direção
-	ray_length = 150;
-	ray_x = data->player.x + cos(data->player.angle) * ray_length;
-	ray_y = data->player.y + sin(data->player.angle) * ray_length;
-	draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
+	// ray_length = 150;
+	// ray_x = data->player.x + cos(data->player.angle) * ray_length;
+	// ray_y = data->player.y + sin(data->player.angle) * ray_length;
+	// draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
+	draw_rays(data);
 }
 
 int	key_press(int keycode, t_data *data)

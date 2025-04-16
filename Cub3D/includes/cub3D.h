@@ -27,6 +27,8 @@
 
 # define PI 3.14159265358979323846
 
+# define FOV (PI/3)
+
 # define MAP_W 10
 # define MAP_H 10
 
