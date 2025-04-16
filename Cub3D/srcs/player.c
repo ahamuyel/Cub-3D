@@ -3,7 +3,7 @@
 void	init_player(t_data *data)
 {
 	data->player.x = 12 * SIZE + SIZE / 2;
-	data->player.y = 10 * SIZE + SIZE / 2;
+	data->player.y = 16 * SIZE + SIZE / 2;
 	data->player.angle = 0;
 }
 
@@ -92,11 +92,11 @@ void	player(t_data *data)
 	// double	ray_x;
 	// double	ray_y;
 	size = 20;
-	i = -size / 2;
-	while (i < size / 2)
+	i = -size / 4;
+	while (i < size / 4)
 	{
-		j = -size / 2;
-		while (j < size / 2)
+		j = -size / 4;
+		while (j < size / 4)
 		{
 			my_put_pixel(data->player.x + j, data->player.y + i, 0x0ffff0,
 				data);
@@ -115,22 +115,34 @@ void	player(t_data *data)
 int	key_press(int keycode, t_data *data)
 {
 	int		step;
+	double	angle;
 	double	new_x;
 	double	new_y;
 
+	angle = data->player.angle;
 	new_x = data->player.x;
 	new_y = data->player.y;
 	step = 20;
 	if (keycode == KEY_ESC)
 		close_window(data);
 	else if (keycode == KEY_W)
-		new_y -= step;
+	{
+		new_x += cos(angle) * step;
+		new_y += sin(angle) * step;
+	}
 	else if (keycode == KEY_S)
-		new_y += step;
+	{
+		new_y -= step * sin(angle);
+		new_x -= step * cos(angle);
+	}
 	else if (keycode == KEY_A)
-		new_x -= step;
+	{
+		new_x -= step * cos(angle);
+	}
 	else if (keycode == KEY_D)
-		new_x += step;
+	{
+		new_x += step * cos(angle);
+	}
 	else if (keycode == KEY_Q)
 		data->player.angle -= 0.1;
 	else if (keycode == KEY_E)
