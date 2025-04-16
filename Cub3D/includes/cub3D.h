@@ -20,8 +20,8 @@
 
 # define KEY_ESC 65307
 
-# define KEY_Q 118
-# define KEY_E 120
+# define KEY_Q 113
+# define KEY_E 101
 
 # define SPEED 20
 
