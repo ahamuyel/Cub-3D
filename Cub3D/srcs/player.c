@@ -45,39 +45,46 @@ int	is_wall(double x, double y, t_data *data)
 
 double	cast_ray(double angle, t_data *data)
 {
-	double ray_x = data->player.x;
-	double ray_y = data->player.y;
-	double step = 1;
-	double distance = 0;
+	double	ray_x;
+	double	ray_y;
+	double	step;
+	double	distance;
 
+	ray_x = data->player.x;
+	ray_y = data->player.y;
+	step = 1;
+	distance = 0;
 	while (!is_wall(ray_x, ray_y, data))
 	{
 		ray_x += cos(angle) * step;
 		ray_y += sin(angle) * step;
 		distance += step;
 	}
-
 	data->ray_angle = angle; // guardar o ângulo atual do raio
 	return (distance);
 }
 
-
 void	draw_rays(t_data *data)
 {
-	int		num_rays = WIDTH;
-	double	start_angle = data->player.angle - (FOV / 2);
-	double	angle_step = FOV / num_rays;
-	int		x = 0;
+	int		num_rays;
+	double	start_angle;
+	double	angle_step;
+	int		x;
+	double	ray_angle;
+	double	distance;
 
+	num_rays = WIDTH;
+	start_angle = data->player.angle - (FOV / 2);
+	angle_step = FOV / num_rays;
+	x = 0;
 	while (x < num_rays)
 	{
-		double ray_angle = start_angle + x * angle_step;
-		double distance = cast_ray(ray_angle, data);
+		ray_angle = start_angle + x * angle_step;
+		distance = cast_ray(ray_angle, data);
 		render_3d_column(x, distance, data);
 		x++;
 	}
 }
-
 
 // Digital ray marching
 
@@ -110,7 +117,6 @@ void	player(t_data *data)
 	// draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
 	// draw_rays(data);
 }
-
 int	key_press(int keycode, t_data *data)
 {
 	int		step;
@@ -148,15 +154,57 @@ int	key_press(int keycode, t_data *data)
 		data->player.angle -= 0.1;
 	else if (keycode == KEY_E || keycode == KEY_R_RIGHT)
 		data->player.angle += 0.1;
+	else if (keycode == KEY_TAB)
+	{
+		data->debug_mode = !data->debug_mode;
+		printf("Modo debug: %s\n", data->debug_mode ? "ON" : "OFF");
+	}
+
 	if (!is_wall(new_x, new_y, data))
 	{
 		data->player.x = new_x;
 		data->player.y = new_y;
 	}
+
 	clear_image(data);
-	// draw_map(data);
-	// player(data);
-	draw_rays(data);
+
+	if (data->debug_mode)
+	{
+		draw_map(data);
+		player(data);
+		draw_minimap_rays(data);
+	}
+	else
+		draw_rays(data);
+
+
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
+
+void	draw_minimap_rays(t_data *data)
+{
+	int		num_rays;
+	double	start_angle;
+	double	angle_step;
+	int		x;
+	double	ray_angle;
+	double	ray_x;
+	double	ray_y;
+	double	distance;
+
+	num_rays = 60; // menos raios para o minimapa
+	start_angle = data->player.angle - (FOV / 2);
+	angle_step = FOV / num_rays;
+	x = 0;
+	while (x < num_rays)
+	{
+		ray_angle = start_angle + x * angle_step;
+		distance = cast_ray(ray_angle, data);
+		ray_x = data->player.x + cos(ray_angle) * distance;
+		ray_y = data->player.y + sin(ray_angle) * distance;
+		draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
+		x++;
+	}
+}
+

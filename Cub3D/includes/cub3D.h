@@ -36,6 +36,7 @@
 
 # define MAP_W 10
 # define MAP_H 10
+# define KEY_TAB 65289
 
 typedef struct s_player
 {
@@ -65,6 +66,7 @@ typedef struct s_data
 	float		dir_y;
 	char		**map;
 	int			ray_angle;
+	int			debug_mode;
 	t_player	player;
 }				t_data;
 
@@ -81,10 +83,12 @@ void			draw_square(int x, int y, int color, t_data *data);
 char			**get_map(void);
 void			draw_map(t_data *data);
 double			cast_ray(double angle, t_data *data);
+void			draw_rays(t_data *data);
 
 // player
 void			init_player(t_data *data);
 void			render_3d_column(int x, double distance, t_data *data);
 void			player(t_data *data);
 int				key_press(int keycode, t_data *data);
+void			draw_minimap_rays(t_data *data);
 #endif
