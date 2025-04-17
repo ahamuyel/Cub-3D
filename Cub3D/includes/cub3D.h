@@ -18,6 +18,11 @@
 # define KEY_A 97
 # define KEY_D 100
 
+# define KEY_R_UP 65362
+# define KEY_R_DOWN 65364
+# define KEY_R_LEFT 65361
+# define KEY_R_RIGHT 65363
+
 # define KEY_ESC 65307
 
 # define KEY_Q 113
@@ -27,7 +32,7 @@
 
 # define PI 3.14159265358979323846
 
-# define FOV (PI/3)
+# define FOV (PI / 3)
 
 # define MAP_W 10
 # define MAP_H 10
@@ -46,6 +51,8 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	void		*img;
+	void		*img_2d;
+	void		*img_3d;
 	char		*addr;
 	int			line_length;
 	int			bbp;
@@ -57,6 +64,7 @@ typedef struct s_data
 	float		dir_x;
 	float		dir_y;
 	char		**map;
+	int			ray_angle;
 	t_player	player;
 }				t_data;
 
@@ -72,9 +80,11 @@ void			my_put_pixel(int x, int y, int color, t_data *data);
 void			draw_square(int x, int y, int color, t_data *data);
 char			**get_map(void);
 void			draw_map(t_data *data);
+double			cast_ray(double angle, t_data *data);
 
 // player
 void			init_player(t_data *data);
+void			render_3d_column(int x, double distance, t_data *data);
 void			player(t_data *data);
 int				key_press(int keycode, t_data *data);
 #endif

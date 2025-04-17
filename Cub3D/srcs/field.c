@@ -83,3 +83,30 @@ void	draw_map(t_data *data)
 		y++;
 	}
 }
+
+void	render_3d_column(int x, double distance, t_data *data)
+{
+	double	wall_height;
+	int		start;
+	int		end;
+	int		y;
+
+	// Corrige "efeito olho de peixe"
+	double corrected_distance = distance * cos(data->player.angle - data->ray_angle);
+
+	wall_height = (SIZE * HEIGHT) / corrected_distance;
+	start = (HEIGHT / 2) - (wall_height / 2);
+	end = (HEIGHT / 2) + (wall_height / 2);
+
+	if (start < 0)
+		start = 0;
+	if (end > HEIGHT)
+		end = HEIGHT;
+
+	y = start;
+	while (y < end)
+	{
+		my_put_pixel(x, y, 0xAAAAAA, data); // cor cinza da parede
+		y++;
+	}
+}

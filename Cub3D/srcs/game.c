@@ -9,9 +9,9 @@ void	init_game(t_data *data)
 			&data->endian);
 	data->map = get_map();
     init_player(data);
-    player(data);
-	draw_map(data);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+    // player(data);
+	// draw_map(data);
+	// mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
 void clear_image(t_data *data)

@@ -43,42 +43,41 @@ int	is_wall(double x, double y, t_data *data)
 	return (1);
 }
 
-void	cast_ray(double angle, t_data *data)
+double	cast_ray(double angle, t_data *data)
 {
-	double	ray_x;
-	double	ray_y;
-	double	steps;
+	double ray_x = data->player.x;
+	double ray_y = data->player.y;
+	double step = 1;
+	double distance = 0;
 
-	ray_x = data->player.x;
-	ray_y = data->player.y;
-	steps = 1;
 	while (!is_wall(ray_x, ray_y, data))
 	{
-		ray_x += cos(angle) * steps;
-		ray_y += sin(angle) * steps;
+		ray_x += cos(angle) * step;
+		ray_y += sin(angle) * step;
+		distance += step;
 	}
-	draw_line(data->player.x, data->player.y, ray_x, ray_y, data);
+
+	data->ray_angle = angle; // guardar o ângulo atual do raio
+	return (distance);
 }
+
 
 void	draw_rays(t_data *data)
 {
-	int		rays;
-	double	start_angle;
-	double	angle_steps;
-	int		i;
-	double	ray_angle;
+	int		num_rays = WIDTH;
+	double	start_angle = data->player.angle - (FOV / 2);
+	double	angle_step = FOV / num_rays;
+	int		x = 0;
 
-	rays = 10000;
-	start_angle = data->player.angle - (FOV / 2);
-	angle_steps = FOV / rays;
-	i = 0;
-	while (i < rays)
+	while (x < num_rays)
 	{
-		ray_angle = start_angle + i * angle_steps;
-		cast_ray(ray_angle, data);
-		i++;
+		double ray_angle = start_angle + x * angle_step;
+		double distance = cast_ray(ray_angle, data);
+		render_3d_column(x, distance, data);
+		x++;
 	}
 }
+
 
 // Digital ray marching
 
@@ -125,12 +124,12 @@ int	key_press(int keycode, t_data *data)
 	step = 20;
 	if (keycode == KEY_ESC)
 		close_window(data);
-	else if (keycode == KEY_W)
+	else if (keycode == KEY_W || keycode == KEY_R_UP)
 	{
 		new_x += cos(angle) * step;
 		new_y += sin(angle) * step;
 	}
-	else if (keycode == KEY_S)
+	else if (keycode == KEY_S || keycode == KEY_R_DOWN)
 	{
 		new_y -= step * sin(angle);
 		new_x -= step * cos(angle);
@@ -138,14 +137,16 @@ int	key_press(int keycode, t_data *data)
 	else if (keycode == KEY_A)
 	{
 		new_x -= step * cos(angle);
+		new_y += step * sin(angle);
 	}
 	else if (keycode == KEY_D)
 	{
 		new_x += step * cos(angle);
+		new_y -= step * sin(angle);
 	}
-	else if (keycode == KEY_Q)
+	else if (keycode == KEY_Q || keycode == KEY_R_LEFT)
 		data->player.angle -= 0.1;
-	else if (keycode == KEY_E)
+	else if (keycode == KEY_E || keycode == KEY_R_RIGHT)
 		data->player.angle += 0.1;
 	if (!is_wall(new_x, new_y, data))
 	{
@@ -153,8 +154,8 @@ int	key_press(int keycode, t_data *data)
 		data->player.y = new_y;
 	}
 	clear_image(data);
-	draw_map(data);
-	player(data);
+	// draw_map(data);
+	// player(data);
 	draw_rays(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
