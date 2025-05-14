@@ -6,7 +6,7 @@
 /*   By: ahamuyel <ahamuyel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:42:55 by ahamuyel          #+#    #+#             */
-/*   Updated: 2025/05/13 15:42:56 by ahamuyel         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:16:49 by ahamuyel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,36 @@
 # define Q 113
 # define E 101
 
+# define BLOCK 30
+
+typedef struct s_field
+{
+	char	**grid;
+	int		height;
+	int		width;
+	int		color;
+	int		size;
+}			t_field;
+
 typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
+
+	void	*img;
+
+	int		bpp;
+	int		line_length;
+	char	*addr;
+	int		endian;
+	t_field	field;
 }			t_data;
 
 void		init_window(t_data *data);
 int			close_window(t_data *data);
 int			key_press(int keycode, t_data *data);
 
+void		ft_draw_block(int x, int y, int color, t_data *data);
+
+void		ft_draw_map(t_data *data);
 #endif
