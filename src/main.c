@@ -6,7 +6,7 @@
 /*   By: ahamuyel <ahamuyel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:42:50 by ahamuyel          #+#    #+#             */
-/*   Updated: 2025/05/13 15:42:51 by ahamuyel         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:37:23 by ahamuyel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int	main(void)
 {
 	t_data	data;
 
-	init_window(&data);
+	game(&data);
 	return (0);
 }
